@@ -10,12 +10,12 @@ app = Flask(__name__)
 
 ENV = 'dev'
 
-username = connection_param['dev']['DB_USER']
-DB_HOST = connection_param['dev']['DB_HOST']
-DB_DATABASE_NAME = connection_param['dev']['DB_DATABASE_NAME']
-DB_PASS = connection_param['dev']['DB_PASS']
 
 if ENV == 'dev':
+    username = connection_param['dev']['DB_USER']
+    DB_HOST = connection_param['dev']['DB_HOST']
+    DB_DATABASE_NAME = connection_param['dev']['DB_DATABASE_NAME']
+    DB_PASS = connection_param['dev']['DB_PASS']
     app.debug = True
     app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{username}:{DB_PASS}@{DB_HOST}:5432/{DB_DATABASE_NAME}'
 
