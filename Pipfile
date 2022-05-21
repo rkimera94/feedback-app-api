@@ -10,6 +10,8 @@ flask-sqlalchemy = "*"
 gunicorn = "*"
 python-dotenv = "*"
 python-decouple = "*"
+pytest = "*"
+flask-marshmallow = "*"
 
 [dev-packages]
 
