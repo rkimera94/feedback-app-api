@@ -1,12 +1,14 @@
 from crypt import methods
 from enum import unique
+from unittest import result
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from config import connection_param
+from flask_marshmallow import Marshmallow
 
 
 app = Flask(__name__)
-
+ma = Marshmallow(app)
 
 ENV = 'dev'
 
@@ -44,9 +46,22 @@ class FeedBack(db.Model):
         self.comment = comment
 
 
-@ app.route('/')
+class FeedbackSchema(ma.Schema):
+    class Meta:
+        fields = ['id', 'customer', 'ratings']
+
+
+feedback_schema = FeedbackSchema()
+feedbacks_schema = FeedbackSchema(many=True)
+
+
+@ app.route('/', methods=['GET'])
 def index():
-    return {'app': 'data'}
+    result = db.session.query(FeedBack).all()
+    filtered = feedbacks_schema.dump(result)
+    message = "Data Loaded Successfully"
+
+    return {'status': 200, "message": message, "data": filtered}
 
 
 @ app.route('/submit-feedback', methods=['POST'])
